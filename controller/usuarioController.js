@@ -12,6 +12,24 @@ class UsuarioController {
     }
   }
 
+  static async getVotos(req, res) {
+    try {
+      console.log("Buscando votos");
+      const votos = await usuario.find({ voto: { $exists: true } });
+      const totalVotos = votos.length;
+      const votos1 = votos.filter((voto) => voto.voto === 1).length;
+      console.log("Votos 1:", votos1);
+      const votos2 = votos.filter((voto) => voto.voto === 2).length;
+      console.log("Votos 2:", votos2);
+      const votos3 = votos.filter((voto) => voto.voto === 3).length;
+      console.log("Votos 3:", votos3);
+      res.status(200).json({ totalVotos, votos1, votos2, votos3 });
+    } catch (error) {
+      console.error("Erro ao buscar votos:", error);
+      res.status(500).send("Erro ao buscar votos.");
+    }
+  }
+
   static async getUsuarioById(req, res) {
     try {
       const cpf = req.params.cpf;
